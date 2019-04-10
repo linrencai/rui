@@ -5,18 +5,32 @@
         <title></title>  
         <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script> 
     </head>  
-
+    <style>
+    .cont{
+        width: 1000px;
+        overflow: auto;
+        border: thin solid red;
+    }
+    body,html{
+        width: 100%;
+        overflow: hidden !important;
+    }
+    </style>
     <body>  
+        <div class="cont" id="cont">
 
-        <div id="pic" style="width:10000px;height:300px;font-size:100px;">
-getY和getX同样道理，这两个差值就是鼠标相对于对象的定位，因为拖拽后鼠标和拖拽对象的相对位置是不变的
-        </div>
+        
+        <div id="pic" style="height:300px;font-size:100px;">
+getY和getX同样道理，这两个差值就是鼠标相对于对象的定位，因为拖拽后鼠标和拖拽对象的相对位置是不变的</div>
+    </div>
         <script type="text/javascript">  
             var drag=function(obj){  
 
                 obj.bind("mousedown",start);  
-
+                var objleft = obj.offset().left;
+                console.log('leftstar'+objleft);
                 function start(event){  
+                    
                     if(event.button==0){//判断是否点击鼠标左键  
                         gapX=event.clientX;
                         startx = $(window).scrollLeft();  // scroll的初始位置
@@ -29,19 +43,23 @@ getY和getX同样道理，这两个差值就是鼠标相对于对象的定位，
                     return false;//阻止默认事件或冒泡  
                 }  
                 function move(event){  
+                    
                     var left = event.clientX-gapX; // 鼠标移动的相对距离
                     console.log('鼠标移动的距离'+left);
-                    // $(window).scrollLeft(startx - left );
-                    obj.offset({left:left});
+                    $(window).scrollLeft(startx - left );
+                    var leftreset = objleft+left;
+                    obj.offset({left:leftreset});
+                    
                     return false;//阻止默认事件或冒泡  
                 }  
                 function stop(){  
+                    objleft = obj.offset().left;
                     //解绑定，这一步很必要，前面有解释  
                     $(document).unbind("mousemove",move);  
                     $(document).unbind("mouseup",stop);  
                 }  
             }  
-            obj=$("#pic");  
+            obj=$("#cont");  
             drag(obj);//传入的必须是jQuery对象，否则不能调用jQuery的自定义函数  
         </script>  
     </body>  

@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./css/loading.css" />
+    <!-- <link rel="stylesheet" href="./css/loading.css" /> -->
     <title>Document</title>
   </head>
-  <!-- <style>
+  <style>
   .r-indicator {
     -webkit-transition: opacity .2s linear;
     transition: opacity .2s linear;
@@ -175,13 +175,77 @@
 .r-spinner-fading-circle div::before{
     background-color: #ccc;
 }
-  </style> -->
+html,body {
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.swiper-container{
+    font-size: 0;
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    /* height: 60px; */
+    cursor: pointer;
+    margin-top: 50px;
+    box-sizing: border-box;
+    border: thin solid green;
+    border-radius: 25px;
+}
+.swiper-container .swiper-item:nth-child(n+2){
+    border-left: none;
+}
+.swiper-container .swiper-item:first-child{
+  border-radius: 25px 0 0 25px;
+}
+.swiper-container .swiper-item:last-child{
+  border-radius: 0 25px 25px 0;
+}
+.swiper-item{
+    user-select: none;
+    font-size: 18px;
+    display: inline-block;
+    height: 50px;
+    width: 25%;
+    border: 1px solid #000;
+    background-color: red;
+    margin: 0;
+    padding: 0;
+    /* cursor: pointer; */
+    text-align: center;
+    line-height: 100%;
+    box-sizing: border-box;
+}
+.swiper-container::-webkit-scrollbar {width: 1px;}
+/* 隐藏滚轮 */
+.swiper-container::-webkit-scrollbar {display: none;}  
+a {
+    display: inline-block;
+   list-style: none;
+   text-decoration: none;
+   color: #000;
+   height: 100%;
+   width: 100%;
+   line-height: 100%;
+   margin: 0;
+   padding: 0;
+}
+/* #swiper{
+    position: relative;
+} */
+#swiper1{
+    /* position: absolute; */
+    width: 100%;
+    border-radius: 25px;
+    /* left: 10%; */
+}
+  </style>
   <body>
-    <div class="parent">
-      <div class="children">33333</div>
-      <div class="children">111111</div>
-      <div class="children">22222</div>
-    </div>
     <!-- loading star-->
       <div class="r-btn" onclick="indicator()" style="background-color: #ccc; width: 100px;">
           star r-indicator
@@ -220,14 +284,14 @@
     <!-- swiper star-->
     <div class="swiper-container" id="swiper">
       <div class="wrap" id="swiper1">
-      <div class="swiper-item"> <a href="javascript:;">1</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">2</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">3</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">4</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">5</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">6</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">7</a> </div>
-      <div class="swiper-item"> <a href="javascript:;">8</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">1</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">2</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">3</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">4</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">5</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">6</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">7</a> </div>
+        <div class="swiper-item"> <a href="javascript:;">8</a> </div>
       </div>
     </div>
     <!-- swiper end-->
@@ -235,16 +299,53 @@
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <script>
     // drag-x
-    var swiper = $("#swiper");
-    var drag = function(swiper){
-      left= swiper.offsetLeft();
-      console.log(left);
-      // 鼠标移动的距离
-      function move(even){
-        
-      }
+    var drag=function(obj){  
+
+obj.bind("mousedown",start);  
+var objleft = obj.offset().left;
+console.log('leftstar'+objleft);
+function start(event){  
+    
+    if(event.button==0){//判断是否点击鼠标左键  
+        gapX=event.clientX;
+        startx = $(window).scrollLeft();  // scroll的初始位置
+        console.log('scroll的开始位置' +startx)
+        //movemove事件必须绑定到$(document)上，鼠标移动是在整个屏幕上的  
+        $(document).bind("mousemove",move);  
+        //此处的$(document)可以改为obj  
+        $(document).bind("mouseup",stop);                           
+    }  
+    return false;//阻止默认事件或冒泡  
+}  
+function move(event){  
+    
+    var left = event.clientX-gapX; // 鼠标移动的相对距离
+    console.log('鼠标移动的距离'+left);
+    $(window).scrollLeft(startx - left );
+    var leftreset = objleft+left;
+    console.log('leftreset'+leftreset)
+    var objwidth = obj.width();
+    console.log('objwidth'+objwidth);
+    var flag = objwidth + leftreset;
+    if(flag<0){
+      leftreset= -objwidth+22;
+    };
+    if(leftreset>17){
+      leftreset=17;
     }
-    drag(swiper);
+    obj.offset({left:leftreset});
+    
+    return false;//阻止默认事件或冒泡  
+}  
+function stop(){  
+    objleft = obj.offset().left;
+    //解绑定，这一步很必要，前面有解释  
+    $(document).unbind("mousemove",move);  
+    $(document).unbind("mouseup",stop);  
+}  
+}  
+obj=$("#swiper1");  
+drag(obj);//传入的必须是jQuery对象，否则不能调用jQuery的自定义函数  
     // loading
   function indicator(){
     document.getElementById('r-indicator').style.display='block';

@@ -176,14 +176,14 @@ html,body {
 }
 .swiper-container{
     font-size: 0;
-    width: 99%;
+    width: 100%;
     margin: 0 auto;
     overflow-x: scroll;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
-    height: 60px;
-    /* cursor: pointer; */
+    /* height: 60px; */
+    cursor: pointer;
     margin-top: 50px;
     box-sizing: border-box;
     border: thin solid green;
@@ -234,11 +234,11 @@ a {
     margin-right: 10px;
     background-color: blue;
 }
-#swiper{
+/* #swiper{
     position: relative;
-}
+} */
 #swiper1{
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
-    left: 10%;
+    /* left: 10%; */
 }
