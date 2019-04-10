@@ -194,14 +194,15 @@ html,body {
     cursor: pointer;
     margin-top: 50px;
     box-sizing: border-box;
-    border: thin solid green;
+    border: thin solid black;
     border-radius: 25px;
 }
-.swiper-container .swiper-item:nth-child(n+2){
+/* .swiper-container .swiper-item:nth-child(n+2){
     border-left: none;
-}
+} */
 .swiper-container .swiper-item:first-child{
   border-radius: 25px 0 0 25px;
+  border-left: none;
 }
 .swiper-container .swiper-item:last-child{
   border-radius: 0 25px 25px 0;
@@ -212,8 +213,8 @@ html,body {
     display: inline-block;
     height: 50px;
     width: 25%;
-    border: 1px solid #000;
-    background-color: red;
+    border-left: 1px solid #000;
+    background-color: pink;
     margin: 0;
     padding: 0;
     /* cursor: pointer; */
@@ -229,9 +230,9 @@ a {
    list-style: none;
    text-decoration: none;
    color: #000;
-   height: 100%;
+   height: 50px;
    width: 100%;
-   line-height: 100%;
+   line-height: 50px;
    margin: 0;
    padding: 0;
 }
@@ -243,6 +244,30 @@ a {
     width: 100%;
     border-radius: 25px;
     /* left: 10%; */
+}
+/* flie */
+.file-cont li{
+  list-style: none;
+  margin-bottom: 10px;
+  /* border: thin solid #ccc; */
+  /* padding: 5px; */
+  /* width: 300px; */
+}
+.file-cont li input {
+  padding: 5px;
+  border: thin solid #ccc;
+}
+.file-cont li span {
+  padding: 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+  background-color: skyblue;
+  cursor: pointer;
+}
+button {
+  background-color: pink;
+  border: none;
+  outline: none;
 }
   </style>
   <body>
@@ -284,7 +309,7 @@ a {
     <!-- swiper star-->
     <div class="swiper-container" id="swiper">
       <div class="wrap" id="swiper1">
-        <div class="swiper-item"> <a href="javascript:;">1</a> </div>
+        <div class="swiper-item"> <a href="http://www.baidu.com">baidu</a> </div>
         <div class="swiper-item"> <a href="javascript:;">2</a> </div>
         <div class="swiper-item"> <a href="javascript:;">3</a> </div>
         <div class="swiper-item"> <a href="javascript:;">4</a> </div>
@@ -295,9 +320,38 @@ a {
       </div>
     </div>
     <!-- swiper end-->
+    <!-- flie template star-->
+    <div class="file-cont">
+      <button id="addFile">点击添加新文件上传框</button>
+        <ul id="fileList">
+          <li>
+            <input type="file" placeholder="choose your file">
+          </li>
+        </ul>
+    </div>
+    
+    <!-- flie template end-->
   </body>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <script>
+    
+    // add flie button
+    $('#addFile').click(function(){
+      var iptNumber = $(':file').length;
+      console.log(iptNumber);
+      if(iptNumber>4){
+        return ;
+      }
+      var li = '<li>'+
+            '<input type="file">'+'<span id="del">'+'删除'+'</span>'+
+          '</li>';
+      $('#fileList li:last').after(li);
+    })
+    // del file button
+    $("#fileList").on("click","#del",function(){
+      // console.log(123);
+      $(this).parent().remove();
+    })
     // drag-x
     var drag=function(obj){  
 
@@ -331,7 +385,7 @@ function move(event){
       leftreset= -objwidth+22;
     };
     if(leftreset>17){
-      leftreset=17;
+      leftreset=16;
     }
     obj.offset({left:leftreset});
     
